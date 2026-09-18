@@ -1,0 +1,18 @@
+{{template "head" .}}
+<h1>Disputes</h1>
+<section class="card">
+  <table>
+    <thead><tr><th>ID</th><th>Invoice</th><th>Claimed</th><th>Status</th></tr></thead>
+    <tbody>
+    {{range .Disputes}}
+      <tr>
+        <td><a class="mono" href="/disputes/{{.ID}}">{{.ID}}</a></td>
+        <td class="mono">{{.InvoiceID}}</td>
+        <td>{{usd .DisputedAmountCents}}</td>
+        <td><span class="badge {{.Status}}">{{.Status}}</span></td>
+      </tr>
+    {{end}}
+    </tbody>
+  </table>
+</section>
+{{template "foot" .}}

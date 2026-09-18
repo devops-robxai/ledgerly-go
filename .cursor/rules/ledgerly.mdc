@@ -1,0 +1,23 @@
+---
+description: Ledgerly product voice, catalog prices, and fictional data
+alwaysApply: true
+---
+
+# Ledgerly (Go)
+
+Fictional B2B billing product. Precise billing-ops voice.
+
+## Catalog only
+
+- Starter — $49 (4900 cents)
+- Growth — $99 (9900 cents)
+- Scale — $249 (24900 cents)
+
+Read amounts from `internal/billing/plans.go` / seed. Format with `FormatUSD`.
+
+## Seams
+
+- `SUGGESTED_CREDIT_API_VERSION` in `internal/billing/suggested_credit.go` ships as **v1**. Moving to v2 is a tracked demo fix — do not drive-by fix it in unrelated work unless asked.
+- `TestSuggestedCreditUsesV2Cap` is the planted red test. Do not edit it to get green.
+- Dispute `dsp_1043` claims $400 against a $249 Scale invoice. Keep the claim; v2 caps at $249.
+- Preserve both `/api/v1` and `/api/v2` suggested-credit routes.

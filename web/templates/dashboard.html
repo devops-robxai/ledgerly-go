@@ -1,0 +1,43 @@
+{{template "head" .}}
+<h1>Dashboard</h1>
+<div class="grid" style="margin-bottom:1.25rem">
+  <div class="card kpi"><div class="label">Invoices</div><div class="value">{{.Stats.InvoiceCount}}</div></div>
+  <div class="card kpi"><div class="label">Open</div><div class="value">{{.Stats.OpenInvoices}}</div></div>
+  <div class="card kpi"><div class="label">Overdue</div><div class="value">{{.Stats.OverdueCount}}</div></div>
+  <div class="card kpi"><div class="label">Disputes</div><div class="value">{{.Stats.DisputeCount}}</div></div>
+</div>
+<div class="stack">
+  <section class="card">
+    <h2>Recent invoices</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Plan</th><th>Amount</th><th>Status</th></tr></thead>
+      <tbody>
+      {{range .Invoices}}
+        <tr>
+          <td><a class="mono" href="/invoices/{{.ID}}">{{.ID}}</a></td>
+          <td>{{planLabel .Plan}}</td>
+          <td>{{usd .AmountCents}}</td>
+          <td><span class="badge {{.Status}}">{{.Status}}</span></td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+  </section>
+  <section class="card">
+    <h2>Open disputes</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Invoice</th><th>Claim</th><th>Status</th></tr></thead>
+      <tbody>
+      {{range .Disputes}}
+        <tr>
+          <td><a class="mono" href="/disputes/{{.ID}}">{{.ID}}</a></td>
+          <td class="mono">{{.InvoiceID}}</td>
+          <td>{{usd .DisputedAmountCents}}</td>
+          <td><span class="badge {{.Status}}">{{.Status}}</span></td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+  </section>
+</div>
+{{template "foot" .}}

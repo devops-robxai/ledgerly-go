@@ -1,0 +1,27 @@
+{{template "head" .}}
+<h1>Dispute <span class="mono">{{.Dispute.ID}}</span></h1>
+<div class="stack">
+  <section class="card">
+    <h2>Claim</h2>
+    <p><strong>Status:</strong> <span class="badge {{.Dispute.Status}}">{{.Dispute.Status}}</span></p>
+    <p><strong>Disputed amount:</strong> {{usd .Dispute.DisputedAmountCents}}</p>
+    {{if .Invoice}}
+    <p><strong>Invoice:</strong> <a class="mono" href="/invoices/{{.Invoice.ID}}">{{.Invoice.ID}}</a>
+      ({{planLabel .Invoice.Plan}} · {{usd .Invoice.AmountCents}})</p>
+    {{end}}
+    {{if .Customer}}
+    <p><strong>Customer:</strong> {{.Customer.Name}} · <span class="mono">{{.Customer.Email}}</span></p>
+    {{end}}
+    <p class="meta">{{.Dispute.Reason}}</p>
+  </section>
+
+  <section class="card credit-box">
+    <h2>Suggested credit</h2>
+    <div class="amount" id="suggested-credit">{{.SuggestedCreditUSD}}</div>
+    <p class="meta mono">via {{.SuggestedAPIPath}} ({{.SuggestedAPIVersion}})</p>
+    {{if eq .SuggestedAPIVersion "v1"}}
+    <p class="warn-note">Using deprecated v1 API — raw claim, not catalog-capped.</p>
+    {{end}}
+  </section>
+</div>
+{{template "foot" .}}

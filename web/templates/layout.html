@@ -1,0 +1,27 @@
+{{define "head"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{.Title}} · Ledgerly</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" href="/">Ledger<span>ly</span></a>
+    <nav>
+      <a href="/" class="{{if eq .Active "dashboard"}}active{{end}}">Dashboard</a>
+      <a href="/invoices" class="{{if eq .Active "invoices"}}active{{end}}">Invoices</a>
+      <a href="/disputes" class="{{if eq .Active "disputes"}}active{{end}}">Disputes</a>
+    </nav>
+  </header>
+{{end}}
+
+{{define "foot"}}
+  <p class="footer">Fieldnote Workspace · Operator Avery Quinn · Demo clock 23 Aug 2026 · Catalog $49 / $99 / $249</p>
+</div>
+</body>
+</html>
+{{end}}

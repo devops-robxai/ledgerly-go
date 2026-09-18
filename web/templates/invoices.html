@@ -1,0 +1,19 @@
+{{template "head" .}}
+<h1>Invoices</h1>
+<section class="card">
+  <table>
+    <thead><tr><th>ID</th><th>Customer</th><th>Plan</th><th>Amount</th><th>Status</th></tr></thead>
+    <tbody>
+    {{range .Invoices}}
+      <tr>
+        <td><a class="mono" href="/invoices/{{.ID}}">{{.ID}}</a></td>
+        <td class="mono">{{.CustomerID}}</td>
+        <td>{{planLabel .Plan}}</td>
+        <td>{{usd .AmountCents}}</td>
+        <td><span class="badge {{.Status}}">{{.Status}}</span></td>
+      </tr>
+    {{end}}
+    </tbody>
+  </table>
+</section>
+{{template "foot" .}}

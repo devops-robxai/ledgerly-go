@@ -52,17 +52,6 @@ func (s *Store) GetCustomer(id string) (*Customer, bool) {
 	return &cp, true
 }
 
-func (s *Store) UpdateCustomerEmail(id, email string) error {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	c, ok := s.customers[id]
-	if !ok {
-		return fmt.Errorf("customer %s not found", id)
-	}
-	c.Email = email
-	return nil
-}
-
 func (s *Store) ListInvoices() []*Invoice {
 	s.mu.RLock()
 	defer s.mu.RUnlock()

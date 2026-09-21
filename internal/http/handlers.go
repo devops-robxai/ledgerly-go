@@ -79,36 +79,6 @@ func (s *Server) handleInvoiceDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// POST /invoices/{id}/email
-	if strings.HasSuffix(path, "/email") {
-		id := strings.TrimSuffix(path, "/email")
-		id = strings.TrimSuffix(id, "/")
-		if r.Method != http.MethodPost {
-			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
-		inv, ok := s.Store.GetInvoice(id)
-		if !ok {
-			http.NotFound(w, r)
-			return
-		}
-		if err := r.ParseForm(); err != nil {
-			http.Error(w, "bad form", http.StatusBadRequest)
-			return
-		}
-		email := strings.TrimSpace(r.FormValue("email"))
-		if email == "" {
-			http.Error(w, "email required", http.StatusBadRequest)
-			return
-		}
-		if err := s.Store.UpdateCustomerEmail(inv.CustomerID, email); err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-		http.Redirect(w, r, "/invoices/"+id+"?saved=1", http.StatusSeeOther)
-		return
-	}
-
 	if strings.Contains(path, "/") {
 		http.NotFound(w, r)
 		return
@@ -120,13 +90,9 @@ func (s *Server) handleInvoiceDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cust, _ := s.Store.GetCustomer(inv.CustomerID)
-	flash := ""
-	if r.URL.Query().Get("saved") == "1" {
-		flash = "Customer email updated."
-	}
 	s.render(w, "invoice_detail.html", pageData{
 		Title: "Invoice " + path, Active: "invoices",
-		Invoice: inv, Customer: cust, Flash: flash,
+		Invoice: inv, Customer: cust,
 	})
 }
 

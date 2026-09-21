@@ -41,8 +41,8 @@ Do **not** edit the failing test to get green. Flip the client to v2 (and keep b
 | Path | Role |
 | --- | --- |
 | `/` | Dashboard KPIs + lists |
-| `/invoices`, `/invoices/{id}` | Invoice list / detail |
-| `POST /invoices/{id}/email` | Update customer email (visible after save) |
+| `/invoices`, `/invoices/{id}` | Invoice list / detail (customer email is read-only) |
+| `POST /invoices/{id}/email` | Intentionally absent — 101 Plan→Agent builds this live |
 | `/disputes`, `/disputes/{id}` | Dispute list / detail + suggested credit |
 | `/runbooks`, `/runbooks/101` | In-app 101 prompt cards (copy-paste). `/workflows` and `/analysis` redirect here |
 | `/api/v1\|v2/disputes/{id}/suggested-credit` | JSON suggested-credit APIs |
@@ -50,8 +50,8 @@ Do **not** edit the failing test to get green. Flip the client to v2 (and keep b
 ## Workshop notes
 
 1. Copy-paste prompts in the product UI: [http://localhost:43173/runbooks/101](http://localhost:43173/runbooks/101). Source of truth remains [`runbooks/101.md`](runbooks/101.md).
-2. Reset planted seams after a demo: `./scripts/reset-demo-state.sh`.
-3. Invoice email beat uses `inv_1048` (Brightwell Labs).
+2. Reset planted seams after a demo: `./scripts/reset-demo-state.sh`. That restores the v1 suggested-credit client **and** the absent invoice email form (strips the form / write path if a practice agent added them).
+3. Invoice email beat uses `inv_1048` (Brightwell Labs). The update form is intentionally missing on a clean tree so Plan→Agent can implement it.
 4. Do not push to GitHub unless asked; local `git init` is fine.
 
 ## Module

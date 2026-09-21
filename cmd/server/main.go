@@ -8,8 +8,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/robbarnes/ledgerly/internal/billing"
-	httpserver "github.com/robbarnes/ledgerly/internal/http"
+	"github.com/devops-robxai/ledgerly-go/internal/billing"
+	httpserver "github.com/devops-robxai/ledgerly-go/internal/http"
 )
 
 const addr = ":43173"

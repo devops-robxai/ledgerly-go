@@ -55,4 +55,4 @@ Do **not** edit the failing test to get green. Flip the client to v2 (and keep b
 
 ## Module
 
-`github.com/robbarnes/ledgerly`
+`github.com/devops-robxai/ledgerly-go`

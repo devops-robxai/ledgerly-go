@@ -1,3 +1,3 @@
-module github.com/robbarnes/ledgerly
+module github.com/devops-robxai/ledgerly-go
 
 go 1.22

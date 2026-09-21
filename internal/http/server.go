@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/robbarnes/ledgerly/internal/billing"
+	"github.com/devops-robxai/ledgerly-go/internal/billing"
 )
 
 type Server struct {

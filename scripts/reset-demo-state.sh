@@ -141,12 +141,18 @@ def remove_if_with_needle(src: str, needle: str) -> str:
 
 
 def strip_invoice_form(text: str) -> str:
-    text = re.sub(r"\n[ \t]*<form\b.*?</form>[ \t]*", "\n", text, flags=re.S | re.I)
+    text = re.sub(r"\n[ \t]*<form\b.*?</form>[ \t]*\n?", "\n", text, flags=re.S | re.I)
     text = re.sub(
         r"\n[ \t]*<(?:label|input|button)\b[^>]*(?:email|Save)[^>]*>.*?(?:</(?:label|button)>|[ \t]*)",
         "",
         text,
         flags=re.S | re.I,
+    )
+    # Keep the customer card tight: no leftover blank line after a stripped form.
+    text = re.sub(
+        r'(<p>Email: <span class="mono" id="customer-email">\{\{\.Customer\.Email\}\}</span></p>)\n\n+',
+        r"\1\n",
+        text,
     )
     return text
 

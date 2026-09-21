@@ -1,0 +1,71 @@
+{{template "head" .}}
+<h1>{{if .Track}}{{.Track.Title}}{{else}}Runbooks{{end}}</h1>
+{{if .Track}}
+{{if .Track.Intro}}<div class="runbook-intro">{{md .Track.Intro}}</div>{{end}}
+
+<nav class="runbook-jump" aria-label="Runbook sections">
+  {{range .Track.Sections}}
+    <a href="#{{.ID}}">{{.Title}}</a>
+  {{end}}
+</nav>
+
+<div class="stack runbook">
+{{range .Track.Sections}}
+  <section class="card runbook-section" id="{{.ID}}">
+    <h2>{{.Title}}</h2>
+    {{range .Beats}}
+      <article class="runbook-beat" id="{{.ID}}">
+        {{if .Title}}<h3>{{.Title}}</h3>{{end}}
+        {{if .Detail}}<div class="runbook-detail">{{md .Detail}}</div>{{end}}
+        {{range .Prompts}}
+          <div class="prompt-block">
+            <div class="prompt-toolbar">
+              <span class="meta">Paste in Cursor</span>
+              <button type="button" class="copy-btn" data-copy>Copy</button>
+            </div>
+            <pre tabindex="0"><code>{{.}}</code></pre>
+          </div>
+        {{end}}
+      </article>
+    {{end}}
+  </section>
+{{end}}
+</div>
+<p class="meta">Source of truth: <span class="mono">runbooks/{{.Track.ID}}.md</span> in the repo. Review every agent result.</p>
+<script>
+(function () {
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return Promise.reject();
+  }
+  function selectBlock(pre) {
+    var range = document.createRange();
+    range.selectNodeContents(pre);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var block = btn.closest(".prompt-block");
+      var pre = block && block.querySelector("pre");
+      if (!pre) return;
+      var text = pre.innerText.replace(/\n$/, "");
+      copyText(text).then(function () {
+        btn.textContent = "Copied";
+        setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+      }).catch(function () {
+        selectBlock(pre);
+        try { document.execCommand("copy"); btn.textContent = "Copied"; } catch (e) {}
+        setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
+})();
+</script>
+{{else}}
+<p class="meta">No runbook loaded.</p>
+{{end}}
+{{template "foot" .}}

@@ -15,7 +15,7 @@ cd ~/Developer/ledgerly   # or this repo root
 go run ./cmd/server
 ```
 
-Open **http://localhost:43173**.
+Open **http://localhost:43173**. Workshop prompts: **http://localhost:43173/runbooks/101**.
 
 ```bash
 go build -o /tmp/ledgerly ./cmd/server
@@ -44,11 +44,12 @@ Do **not** edit the failing test to get green. Flip the client to v2 (and keep b
 | `/invoices`, `/invoices/{id}` | Invoice list / detail |
 | `POST /invoices/{id}/email` | Update customer email (visible after save) |
 | `/disputes`, `/disputes/{id}` | Dispute list / detail + suggested credit |
+| `/runbooks`, `/runbooks/101` | In-app 101 prompt cards (copy-paste). `/workflows` and `/analysis` redirect here |
 | `/api/v1\|v2/disputes/{id}/suggested-credit` | JSON suggested-credit APIs |
 
 ## Workshop notes
 
-1. Copy-paste prompts: [`runbooks/101.md`](runbooks/101.md).
+1. Copy-paste prompts in the product UI: [http://localhost:43173/runbooks/101](http://localhost:43173/runbooks/101). Source of truth remains [`runbooks/101.md`](runbooks/101.md).
 2. Reset planted seams after a demo: `./scripts/reset-demo-state.sh`.
 3. Invoice email beat uses `inv_1048` (Brightwell Labs).
 4. Do not push to GitHub unless asked; local `git init` is fine.

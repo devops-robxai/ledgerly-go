@@ -8,27 +8,31 @@ import (
 	"strings"
 
 	"github.com/devops-robxai/ledgerly-go/internal/billing"
+	"github.com/devops-robxai/ledgerly-go/internal/runbooks"
 )
 
 type Server struct {
-	Store *billing.Store
-	tmpl  *template.Template
-	mux   *http.ServeMux
+	Store    *billing.Store
+	tmpl     *template.Template
+	mux      *http.ServeMux
+	runbooks fs.FS
 }
 
 // NewFromFS parses HTML templates from templatesFS (*.html) and serves staticRoot at /static/.
-func NewFromFS(store *billing.Store, templatesFS fs.FS, staticRoot fs.FS) (*Server, error) {
+// runbooksFS is the directory of workshop markdown (101.md); may be nil (routes 404).
+func NewFromFS(store *billing.Store, templatesFS fs.FS, staticRoot fs.FS, runbooksFS fs.FS) (*Server, error) {
 	funcs := template.FuncMap{
 		"usd": billing.FormatUSD,
 		"planLabel": func(p billing.PlanID) string {
 			return billing.PlanLabel(p)
 		},
+		"md": runbooks.InlineHTML,
 	}
 	tmpl, err := template.New("").Funcs(funcs).ParseFS(templatesFS, "*.html")
 	if err != nil {
 		return nil, err
 	}
-	s := &Server{Store: store, tmpl: tmpl, mux: http.NewServeMux()}
+	s := &Server{Store: store, tmpl: tmpl, mux: http.NewServeMux(), runbooks: runbooksFS}
 	s.routes(staticRoot)
 	return s, nil
 }
@@ -48,6 +52,11 @@ func (s *Server) routes(staticRoot fs.FS) {
 
 	s.mux.HandleFunc("/api/v1/disputes/", s.handleSuggestedCreditV1)
 	s.mux.HandleFunc("/api/v2/disputes/", s.handleSuggestedCreditV2)
+
+	s.mux.HandleFunc("/runbooks", s.handleRunbooks)
+	s.mux.HandleFunc("/runbooks/", s.handleRunbooks)
+	s.mux.HandleFunc("/workflows", s.redirectToRunbooks101)
+	s.mux.HandleFunc("/analysis", s.redirectToRunbooks101)
 
 	s.mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

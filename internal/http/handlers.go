@@ -2,11 +2,14 @@ package httpserver
 
 import (
 	"encoding/json"
+	"errors"
+	"io/fs"
 	"net/http"
 	"sort"
 	"strings"
 
 	"github.com/devops-robxai/ledgerly-go/internal/billing"
+	"github.com/devops-robxai/ledgerly-go/internal/runbooks"
 )
 
 type pageData struct {
@@ -30,6 +33,8 @@ type pageData struct {
 		DisputeCount int
 		OverdueCount int
 	}
+
+	Track *runbooks.Track
 }
 
 func (s *Server) handleDashboard(w http.ResponseWriter, r *http.Request) {
@@ -209,6 +214,46 @@ func (s *Server) handleSuggestedCreditV2(w http.ResponseWriter, r *http.Request)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(resp)
+}
+
+func (s *Server) redirectToRunbooks101(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/runbooks/101", http.StatusFound)
+}
+
+func (s *Server) handleRunbooks(w http.ResponseWriter, r *http.Request) {
+	path := strings.Trim(r.URL.Path, "/")
+	if path == "runbooks" {
+		s.redirectToRunbooks101(w, r)
+		return
+	}
+	id := trimID("/runbooks/", r.URL.Path)
+	if id == "" || strings.Contains(id, "/") {
+		http.NotFound(w, r)
+		return
+	}
+	if s.runbooks == nil {
+		http.NotFound(w, r)
+		return
+	}
+	name, ok := runbooks.SafeFileName(id)
+	if !ok {
+		http.NotFound(w, r)
+		return
+	}
+	track, err := runbooks.Load(s.runbooks, name)
+	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			http.NotFound(w, r)
+			return
+		}
+		http.Error(w, "runbook error", http.StatusInternalServerError)
+		return
+	}
+	s.render(w, "runbooks.html", pageData{
+		Title:  "Runbooks · " + track.ID,
+		Active: "runbooks",
+		Track:  track,
+	})
 }
 
 func sortInvoices(invoices []*billing.Invoice) {

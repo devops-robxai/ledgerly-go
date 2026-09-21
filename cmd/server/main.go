@@ -24,13 +24,15 @@ func main() {
 	}
 	tmplFS := os.DirFS(filepath.Join(root, "web", "templates"))
 	staticFS := os.DirFS(filepath.Join(root, "web", "static"))
+	runbooksFS := os.DirFS(filepath.Join(root, "runbooks"))
 
-	srv, err := httpserver.NewFromFS(store, tmplFS, staticFS)
+	srv, err := httpserver.NewFromFS(store, tmplFS, staticFS, runbooksFS)
 	if err != nil {
 		log.Fatalf("server: %v", err)
 	}
 
 	fmt.Printf("Ledgerly listening on http://localhost%s\n", addr)
+	fmt.Printf("  runbooks: http://localhost%s/runbooks/101\n", addr)
 	fmt.Printf("  dispute seam: %s → shows v1 credit for dsp_1043\n", billing.SuggestedCreditPath("dsp_1043"))
 	if err := http.ListenAndServe(addr, srv.Handler()); err != nil {
 		log.Fatal(err)

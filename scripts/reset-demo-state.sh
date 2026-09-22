@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-# Restore Ledgerly planted seams for the next Cursor 101 demo.
+# Restore Ledgerly planted seams for the next 101 demo.
+#
+# runbooks/101.md mirrors Rosemary's 101 track and assumes this planted state:
+#   - Plan / Build in Agent mode: invoice email form ABSENT (read-only email)
+#   - Debug / Plan to fix the bug: SUGGESTED_CREDIT_API_VERSION is v1
+#     (card prompt is "Fix the failing test."; flip the constant in
+#     internal/billing/suggested_credit.go)
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -21,11 +27,12 @@ else
   echo "SUGGESTED_CREDIT_API_VERSION already v1 (or unexpected); left unchanged"
 fi
 
-# Drop live /create-rule leftover if present.
+# Drop leftover project rule from an older 101 guardrail beat, if present.
 rm -f "$ROOT/.cursor/rules/suggested-credit-api-v2.mdc"
 
 # Strip the invoice email-update form and write path if a practice agent added them.
-# The 101 Plan→Agent beat builds this live; a clean tree must show read-only email.
+# The 101 Plan / Build in Agent mode beats build this live; a clean tree must
+# show read-only email so the next session can implement it again.
 python3 - "$ROOT" <<'PY'
 import pathlib
 import re

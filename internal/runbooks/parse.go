@@ -18,14 +18,14 @@ type Track struct {
 	Sections []Section
 }
 
-// Section is an H2 block (Ask → Plan → Agent → Debug, govern, reset, …).
+// Section is an H2 block (What is Grok Build?, How do I work with an agent?, …).
 type Section struct {
 	ID    string
 	Title string
 	Beats []Beat
 }
 
-// Beat is an H3 card, or section-level notes when the H2 has no H3s.
+// Beat is an H3 card (title + detail + optional fenced prompt examples).
 type Beat struct {
 	ID      string
 	Title   string

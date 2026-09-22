@@ -86,7 +86,7 @@ func TestRunbooks101RendersCopyableCards(t *testing.T) {
 		"Show it in plaintext when I click the box to edit it.",
 		"Continue to the end, do not wait for my approval.",
 		"/create-rule Preserve the invoice view.",
-		`Change "Line Items" in the UI to something else.`,
+		"Change &#34;Line Items&#34; in the UI to something else.",
 		"/create-skill Use domain-driven design",
 		"Create a canvas explaining what we did today.",
 		"Create three slides in Figma Slides",

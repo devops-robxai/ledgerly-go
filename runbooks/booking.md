@@ -1,6 +1,6 @@
 # Booking.com: Grok Build for engineers
 
-Thu 5 Nov 2026, 08:00 UK (16:00 Shanghai). Remote. 49 min of slides and demos, then about 10 min of Q&A. Topics: skills, model selection (including Auto), token optimisation, context window management. Always call the app **Ledgerly**. Port **43173**. Review every result.
+Thu 5 Nov 2026, 08:00 UK (16:00 Shanghai). Remote. Slides and demos, then Q&A. Topics: skills, model selection (including Auto), token optimisation, context window management. Always call the app **Ledgerly**. Port **43173**. Review every result.
 
 ## Pre-flight (tonight)
 
@@ -56,19 +56,19 @@ Still wrong. Check which API the credit comes from, fix it, and run the tests.
 
 Light mode. Larger editor and chat font. Collapse the left panel. Mute notifications. Slides and Grok Build on the same shared screen.
 
-## Morning of (07:30–07:55)
+## Morning of
 
 ### Final checks
 
 Check the app still runs in the Browser view (re-run **Start the application.** in the Start app chat if not). Run the reset prompt again. Check no Demo 4 rule or skill is left over. Model picker on **Auto**, mode on **Ask**. Join at 07:55 and check with Thomas whether to record.
 
-## Slides 1–10 (7 min, 08:00–08:07)
+## Slides 1–10
 
 ### Present
 
 Keep slides 1, 3 and 4 short. Spend the time on 5–10 (levers, the agent loop, modes, models and Auto). End on: "Let's see that loop in Grok Build."
 
-## Demo 1: The agent loop: Ask, Plan, Agent, Debug, and Auto (8 min, 08:07–08:15)
+## Demo 1: The agent loop: Ask, Plan, Agent, Debug, and Auto
 
 ### Show Ledgerly
 
@@ -122,13 +122,13 @@ Click **Auto**, then **Balance**. Cost keeps token spend lowest and bills like G
 
 No Balance: "Your admin can turn these on for your team," and go back to slide 10. The build is slow: carry on with the model picker and come back to inv_1048 at the end. The build fails: show the plan and the diff, and say "that's what Debug is for." Debug starts fixing: stop it with the Stop button and say "I'll fix this properly later." Running long: skip the browser check of the email feature.
 
-## Slides 11–12 (2 min, 08:15–08:17)
+## Slides 11–12
 
 ### Present
 
 How do I work with an agent? Then steer, review, approve. End on: "Let me show you review, approve and rewind."
 
-## Demo 2: Steer, review, approve, rewind (4 min, 08:17–08:21)
+## Demo 2: Steer, review, approve, rewind
 
 ### Make a small, safe change
 
@@ -158,13 +158,13 @@ Keep the change. Then scroll up to the prompt and click the **restore checkpoint
 
 It changes logic as well: "This is why we read the diff." Reject and rewind. No restore icon: hover over the prompt. Comment still there after rewinding: run the reset prompt before Demo 3. Running long: mention run mode aloud only.
 
-## Slides 13–16 (5 min, 08:21–08:26)
+## Slides 13–16
 
 ### Present
 
 Same result, fewer tokens. Most time on slide 14 (every turn re-sends the whole chat). Then decide earlier, re-send less, and specific prompts. End on: "Let's fix a real bug the low-token way."
 
-## Demo 3: Same fix, fewer tokens (7 min, 08:26–08:33)
+## Demo 3: Same fix, fewer tokens
 
 ### Call back to Demo 1
 
@@ -202,19 +202,19 @@ Run ./scripts/reset-demo-state.sh. Report the result only.
 
 ### If it goes wrong
 
-@debug-failing-test doesn't resolve: pick the chat from the @ menu, or leave it out, because the prompt names the file anyway. Tests still fail: "That's the verify step doing its job." Use the prompt below, and if it's still red at 08:33, reset and move on. Running long: skip the Attempt 1 Long comparison and use slide 14.
+@debug-failing-test doesn't resolve: pick the chat from the @ menu, or leave it out, because the prompt names the file anyway. Tests still fail: "That's the verify step doing its job." Use the prompt below, and if it's still red, reset and move on. Running long: skip the Attempt 1 Long comparison and use slide 14.
 
 ```text
 Tests are failing. Read the failure, fix only the cause, and run go test ./... again.
 ```
 
-## Slides 17–18 (2 min, 08:33–08:35)
+## Slides 17–18
 
 ### Present
 
 How do I govern my agent? Rules and skills. End on: "This next part is hands-on. Open your own project if you'd like to follow along." Paste the viewer prompts from the Viewer hands-on section into the meeting chat now.
 
-## Demo 4a: Rules (5 min, 08:35–08:40)
+## Demo 4a: Rules
 
 ### Show the existing rule
 
@@ -256,7 +256,7 @@ Which rules and skills did you apply to that answer? Name each file.
 
 The baseline already uses integer cents: "The code already shows the pattern. The rule makes it hold everywhere," and focus on the rounding. The rule isn't listed: set its apply type to always for the demo and re-run in a fresh agent.
 
-## Demo 4b: Skills (4 min, 08:40–08:44)
+## Demo 4b: Skills
 
 ### What a skill is
 
@@ -298,11 +298,11 @@ Open the **Context Usage** breakdown. "Before I type anything, some context is a
 Use the release-note skill to write a release note: Suggested credit on disputes now uses the v2 API and is capped at the customer's plan price.
 ```
 
-## Viewer hands-on (3 min, 08:44–08:47)
+## Viewer hands-on
 
 ### Your turn
 
-"Open your own project in Grok Build. The prompts are in the chat. Take a couple of minutes, and drop your rule in the chat if you'd like." Tip: run the same task with and without the rule and compare. Viewers without a project can clone Ledgerly from slide 3.
+"Open your own project in Grok Build. The prompts are in the chat. Take a moment, and drop your rule in the chat if you'd like." Tip: run the same task with and without the rule and compare. Viewers without a project can clone Ledgerly from slide 3.
 
 ### Step 1: Create a rule
 
@@ -328,7 +328,7 @@ Use the release-note skill to write a release note: Suggested credit on disputes
 Which rules and skills did you apply to that answer? Name each file.
 ```
 
-## Wrap up (2 min, 08:47–08:49)
+## Wrap up
 
 ### Slides 19–21
 

@@ -1,6 +1,6 @@
 # Booking.com: Grok Build for engineers
 
-Thu 5 Nov 2026, 08:00 UK (16:00 Shanghai). Remote. 47 min of slides and demos, then 10–12 min of Q&A. Topics: skills, model selection (including Auto), token optimisation, context window management. Always call the app **Ledgerly**. Port **43173**. Review every result.
+Thu 5 Nov 2026, 08:00 UK (16:00 Shanghai). Remote. 49 min of slides and demos, then about 10 min of Q&A. Topics: skills, model selection (including Auto), token optimisation, context window management. Always call the app **Ledgerly**. Port **43173**. Review every result.
 
 ## Pre-flight (tonight)
 
@@ -22,7 +22,7 @@ Start the application.
 
 ### Reset the planted state
 
-Restores the v1 suggested-credit client. Afterwards, http://localhost:43173/disputes/dsp_1043 should show **$400.00** (wrong) and `TestSuggestedCreditUsesV2Cap` should fail.
+Restores the v1 suggested-credit client and removes the invoice email form, so Plan and Agent can build it live in Demo 1. Afterwards, http://localhost:43173/disputes/dsp_1043 should show **$400.00** (wrong) and `TestSuggestedCreditUsesV2Cap` should fail.
 
 ```text
 Run ./scripts/reset-demo-state.sh and then run go test ./internal/billing/ -run TestSuggestedCreditUsesV2Cap. Report the result only. Do not fix anything.
@@ -68,7 +68,7 @@ Check the app still runs in the Browser view (re-run **Start the application.** 
 
 Keep slides 1, 3 and 4 short. Spend the time on 5–10 (levers, the agent loop, modes, models and Auto). End on: "Let's see that loop in Grok Build."
 
-## Demo 1: The agent loop, modes and Auto (6 min, 08:07–08:13)
+## Demo 1: The agent loop: Ask, Plan, Agent, Debug, and Auto (8 min, 08:07–08:15)
 
 ### Show Ledgerly
 
@@ -76,15 +76,27 @@ Show http://localhost:43173 in the Browser view. "This is Ledgerly, our demo app
 
 ### Replay the Start app chat
 
-Open the **Start app** chat and scroll it. "I asked one thing: start the application. It read the project, made a plan, ran commands and checked the app loaded. Understand, plan, act, verify."
+Open the **Start app** chat and scroll it. "I asked one thing: start the application. It read the project, made a plan, ran commands and checked the app loaded. Understand, plan, act, verify. Each step has a mode."
 
-### The four modes
+### Ask: understand
 
-**Open a new agent.** Open the mode picker. Ask is for understanding and doesn't edit files. Plan writes the steps, Agent does the work, and Debug investigates. You can also type `/ask`, `/plan` or `/debug` at the start of a prompt.
+**Open a new agent.** Open the mode picker and show the four modes. Ask mode. "Ask is for understanding. It reads, but never edits." Point out that no diff appears.
 
 ```text
 /ask What does Ledgerly do? Name the main packages for invoices, disputes and the HTTP layer in 5 bullets. Do not edit files.
 ```
+
+### Plan: map the approach
+
+**Open a new agent.** Plan mode. Show http://localhost:43173/invoices/inv_1048 first: the customer email in the Customer card is read-only. "Plan writes the steps before any code changes. I review it, and change my mind here, where it's cheap."
+
+```text
+/plan I want a new feature to update the customer email in the invoice detail customer card. Don’t implement email validation.
+```
+
+### Agent: build the plan
+
+Click **Build** on the plan (or switch to Agent mode with shift-tab and ask it to implement the plan). While it runs, move on to the model picker. When it finishes, reload inv_1048 and show the email edit in the Customer card.
 
 ### Pick a model
 
@@ -94,21 +106,25 @@ Open the model picker. "Start with your default. Move up only if it misses. Rout
 
 Click **Auto**, then **Balance**. Cost keeps token spend lowest and bills like Grok or Composer. Balance weighs intelligence, speed and cost. Intelligence goes to the most capable models. Balance and Intelligence bill at the list price of the model they pick. No prices or benchmark ranks from memory.
 
+### Debug: verify and investigate
+
+**Open a new agent.** Debug mode. "There's a failing test in this repo. Debug mode investigates and gives me hypotheses on the root cause before anything changes." Read out the top hypothesis, and don't fix it here. "Hold that thought. We'll fix it properly in the tokens section."
+
 ```text
-/ask Which file in internal/billing would I open first to understand how disputes work? One sentence. Do not edit files.
+/debug the failing test. Give me your top hypotheses for the root cause. Do not fix it yet.
 ```
 
 ### If it goes wrong
 
-No Balance: "Your admin can turn these on for your team," and go back to slide 10. Ask is slow: keep talking through the picker. App not running: skip the Browser view and show the Start app chat only.
+No Balance: "Your admin can turn these on for your team," and go back to slide 10. The build is slow: carry on with the model picker and come back to inv_1048 at the end. The build fails: show the plan and the diff, and say "that's what Debug is for." Debug starts fixing: stop it with the Stop button and say "I'll fix this properly later." Running long: skip the browser check of the email feature.
 
-## Slides 11–12 (2 min, 08:13–08:15)
+## Slides 11–12 (2 min, 08:15–08:17)
 
 ### Present
 
 How do I work with an agent? Then steer, review, approve. End on: "Let me show you review, approve and rewind."
 
-## Demo 2: Steer, review, approve, rewind (4 min, 08:15–08:19)
+## Demo 2: Steer, review, approve, rewind (4 min, 08:17–08:21)
 
 ### Make a small, safe change
 
@@ -138,17 +154,17 @@ Keep the change. Then scroll up to the prompt and click the **restore checkpoint
 
 It changes logic as well: "This is why we read the diff." Reject and rewind. No restore icon: hover over the prompt. Comment still there after rewinding: run the reset prompt before Demo 3. Running long: mention run mode aloud only.
 
-## Slides 13–16 (5 min, 08:19–08:24)
+## Slides 13–16 (5 min, 08:21–08:26)
 
 ### Present
 
 Same result, fewer tokens. Most time on slide 14 (every turn re-sends the whole chat). Then decide earlier, re-send less, and specific prompts. End on: "Let's fix a real bug the low-token way."
 
-## Demo 3: Ask, Plan, build fresh (7 min, 08:24–08:31)
+## Demo 3: Ask, Plan, build fresh (7 min, 08:26–08:33)
 
 ### Show the bug
 
-Open http://localhost:43173/disputes/dsp_1043. It shows **$400.00** suggested credit against a $249 Scale invoice. "This is wrong. Let's find out why, without guessing." Background, not to read out: the client calls the v1 API (raw claim). v2 caps at the plan price. The fix is `SUGGESTED_CREDIT_API_VERSION` in `internal/billing/suggested_credit.go`.
+Open http://localhost:43173/disputes/dsp_1043. It shows **$400.00** suggested credit against a $249 Scale invoice. "This is the failing test Debug looked at earlier. Let's fix it the low-token way." Background, not to read out: the client calls the v1 API (raw claim). v2 caps at the plan price. The fix is `SUGGESTED_CREDIT_API_VERSION` in `internal/billing/suggested_credit.go`.
 
 ### Ask (fresh chat)
 
@@ -190,7 +206,7 @@ Run ./scripts/reset-demo-state.sh. Report the result only.
 
 ### If it goes wrong
 
-Ask doesn't name the API version: use the prompt below. @dispute-cap-ask doesn't resolve: pick it from the @ menu or paste the Ask bullets. Tests still fail: "That's the verify step doing its job." Use the fix prompt below, and if it's still red at 08:31, reset and move on.
+Ask doesn't name the API version: use the prompt below. @dispute-cap-ask doesn't resolve: pick it from the @ menu or paste the Ask bullets. Tests still fail: "That's the verify step doing its job." Use the fix prompt below, and if it's still red at 08:33, reset and move on.
 
 ```text
 /ask Which API version does SuggestedCreditPath in internal/billing/suggested_credit.go use? One line. Do not edit files.
@@ -200,13 +216,13 @@ Ask doesn't name the API version: use the prompt below. @dispute-cap-ask doesn't
 Tests are failing. Read the failure, fix only the cause, and run go test ./... again.
 ```
 
-## Slides 17–18 (2 min, 08:31–08:33)
+## Slides 17–18 (2 min, 08:33–08:35)
 
 ### Present
 
 How do I govern my agent? Rules and skills. End on: "This next part is hands-on. Open your own project if you'd like to follow along." Paste the viewer prompts from the Viewer hands-on section into the meeting chat now.
 
-## Demo 4a: Rules (5 min, 08:33–08:38)
+## Demo 4a: Rules (5 min, 08:35–08:40)
 
 ### Show the existing rule
 
@@ -248,7 +264,7 @@ Which rules and skills did you apply to that answer? Name each file.
 
 The baseline already uses integer cents: "The code already shows the pattern. The rule makes it hold everywhere," and focus on the rounding. The rule isn't listed: set its apply type to always for the demo and re-run in a fresh agent.
 
-## Demo 4b: Skills (4 min, 08:38–08:42)
+## Demo 4b: Skills (4 min, 08:40–08:44)
 
 ### What a skill is
 
@@ -290,7 +306,7 @@ Open the **Context Usage** breakdown. "Before I type anything, some context is a
 Use the release-note skill to write a release note: Suggested credit on disputes now uses the v2 API and is capped at the customer's plan price.
 ```
 
-## Viewer hands-on (3 min, 08:42–08:45)
+## Viewer hands-on (3 min, 08:44–08:47)
 
 ### Your turn
 
@@ -320,7 +336,7 @@ Use the release-note skill to write a release note: Suggested credit on disputes
 Which rules and skills did you apply to that answer? Name each file.
 ```
 
-## Wrap up (2 min, 08:45–08:47)
+## Wrap up (2 min, 08:47–08:49)
 
 ### Slides 19–21
 

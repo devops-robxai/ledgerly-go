@@ -274,36 +274,6 @@ Open the **Context Usage** breakdown. "Before I type anything, some context is a
 Use the release-note skill to write a release note: Suggested credit on disputes now uses the v2 API and is capped at the customer's plan price.
 ```
 
-## Viewer hands-on
-
-### Your turn
-
-"Open your own project in Grok Build. The prompts are in the chat. Take a moment, and drop your rule in the chat if you'd like." Tip: run the same task with and without the rule and compare. Viewers without a project can clone Ledgerly from slide 3.
-
-### Step 1: Create a rule
-
-```text
-/create-rule <One thing every change in this repo must do, e.g. "All API handlers validate input with our shared schema helper.">
-```
-
-### Step 2: Create a skill
-
-```text
-/create-skill Create a project skill called <skill-name>. It <describes one repeatable task in this repo>, following the patterns already in the codebase.
-```
-
-### Step 3: Test it in a fresh agent
-
-```text
-/ask <A task that should trigger your rule or skill>. Show the code you would write. Do not edit files.
-```
-
-### Step 4: Check it was used
-
-```text
-Which rules and skills did you apply to that answer? Name each file.
-```
-
 ## After the session
 
 ### Clean up

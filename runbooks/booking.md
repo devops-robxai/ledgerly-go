@@ -94,29 +94,37 @@ Click **Auto**, then **Balance**. Explain the three modes and how each bills.
 
 ## Demo 2: Steer, review, approve, rewind
 
-### Make a small, safe change
+### Set run mode
 
-**Open a new agent.** Agent mode, Auto.
+Show Settings > Agents > Executions & Approvals > Run Mode, set to ask before running commands. Explain approvals and allowlists.
+
+### Give the task
+
+**Open a new agent.** Agent mode, Auto. One small change to `FormatUSD` that we follow all the way through.
 
 ```text
-/rename-chat Steering demo
+Add usage examples to the doc comment on FormatUSD in internal/billing/money.go, then run go test ./internal/billing/. Do not change any logic.
 ```
 
+### Steer while it works
+
+Send a follow-up before it finishes. Explain that you can redirect an agent mid-run instead of starting again.
+
 ```text
-Add a second example to the doc comment on FormatUSD in internal/billing/money.go showing a negative amount. Do not change any logic.
+Make sure one example shows a negative amount.
 ```
+
+### Approve the command
+
+When it asks to run `go test`, show the approval and approve it.
 
 ### Review the diff
 
-Open the diff. Show it's one comment and no logic changed.
+Open the diff. Show it's comment-only and includes the negative example.
 
-### Run mode
+### Keep, then rewind
 
-Show Settings > Agents > Executions & Approvals > Run Mode. Explain approvals and allowlists.
-
-### Approve, then rewind
-
-Keep the change. Click **restore checkpoint** on the prompt. Show the comment is gone from `money.go`.
+Keep the change. Click **restore checkpoint** on the first prompt. Show `money.go` is back to how it was.
 
 ## Demo 3: Same fix, fewer tokens
 

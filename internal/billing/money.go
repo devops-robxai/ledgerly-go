@@ -3,7 +3,6 @@ package billing
 import "fmt"
 
 // FormatUSD formats cents as a US dollar string, e.g. 24900 -> "$249.00".
-// Negative amounts keep the sign in front of the symbol, e.g. -2500 -> "-$25.00".
 func FormatUSD(cents int) string {
 	neg := cents < 0
 	if neg {

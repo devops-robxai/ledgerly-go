@@ -94,10 +94,6 @@ Click **Auto**, then **Balance**. Explain the three modes and how each bills.
 
 ## Demo 2: Steer, review, approve, rewind
 
-### Set run mode
-
-Show Settings > Agents > Executions & Approvals > Run Mode, set to ask before running commands. Explain approvals and allowlists.
-
 ### Give the task
 
 **Open a new agent.** Agent mode, Auto. One small change to `FormatUSD` that we follow all the way through.
@@ -114,17 +110,17 @@ Send a follow-up before it finishes. Explain that you can redirect an agent mid-
 Make sure one example shows a negative amount.
 ```
 
-### Approve the command
-
-When it asks to run `go test`, show the approval and approve it.
-
 ### Review the diff
 
 Open the diff. Show it's comment-only and includes the negative example.
 
-### Keep, then rewind
+### Run mode
 
-Keep the change. Click **restore checkpoint** on the first prompt. Show `money.go` is back to how it was.
+Show Settings > Agents > Executions & Approvals > Run Mode. Explain asking before commands versus allowlists.
+
+### Approve, then rewind
+
+Keep the change to approve it. Click **restore checkpoint** on the first prompt. Show `money.go` is back to how it was.
 
 ## Demo 3: Same fix, fewer tokens
 

@@ -30,7 +30,7 @@ Run ./scripts/reset-demo-state.sh and then run go test ./internal/billing/ -run 
 
 ### Clean up after rehearsal
 
-Delete anything you create in rehearsal so you can create it live: `.cursor/rules/money-rounding.mdc`, `.cursor/skills/release-note/` and any plan file such as `fix-dispute-cap.md`. Keep `.cursor/rules/ledgerly.mdc`, the repo's own always-apply rule.
+Delete anything you create in rehearsal so you can create it live: `.cursor/rules/money-rounding.mdc`, `.cursor/skills/release-note/` and any plan file Demo 1 saved. Keep `.cursor/rules/ledgerly.mdc`, the repo's own always-apply rule.
 
 ### Optional: stage Attempt 1 Long
 
@@ -114,6 +114,10 @@ Click **Auto**, then **Balance**. Cost keeps token spend lowest and bills like G
 /debug the failing test. Give me your top hypotheses for the root cause. Do not fix it yet.
 ```
 
+```text
+/rename-chat debug-failing-test
+```
+
 ### If it goes wrong
 
 No Balance: "Your admin can turn these on for your team," and go back to slide 10. The build is slow: carry on with the model picker and come back to inv_1048 at the end. The build fails: show the plan and the diff, and say "that's what Debug is for." Debug starts fixing: stop it with the Stop button and say "I'll fix this properly later." Running long: skip the browser check of the email feature.
@@ -160,43 +164,35 @@ It changes logic as well: "This is why we read the diff." Reject and rewind. No 
 
 Same result, fewer tokens. Most time on slide 14 (every turn re-sends the whole chat). Then decide earlier, re-send less, and specific prompts. End on: "Let's fix a real bug the low-token way."
 
-## Demo 3: Ask, Plan, build fresh (7 min, 08:26–08:33)
+## Demo 3: Same fix, fewer tokens (7 min, 08:26–08:33)
+
+### Call back to Demo 1
+
+"You've already seen the low-token pattern. In Demo 1 we asked, planned once and gave each job its own agent. That's slide 15. Now let's look at what it costs when you don't, and fix the bug Debug found with one specific prompt." Don't re-run Ask or Plan here.
 
 ### Show the bug
 
-Open http://localhost:43173/disputes/dsp_1043. It shows **$400.00** suggested credit against a $249 Scale invoice. "This is the failing test Debug looked at earlier. Let's fix it the low-token way." Background, not to read out: the client calls the v1 API (raw claim). v2 caps at the plan price. The fix is `SUGGESTED_CREDIT_API_VERSION` in `internal/billing/suggested_credit.go`.
+Open http://localhost:43173/disputes/dsp_1043. It shows **$400.00** suggested credit against a $249 Scale invoice. "This is the failing test Debug looked at." Background, not to read out: the client calls the v1 API (raw claim), v2 caps at the plan price, and the fix is `SUGGESTED_CREDIT_API_VERSION` in `internal/billing/suggested_credit.go`.
 
-### Ask (fresh chat)
+### The expensive way: Attempt 1 Long
 
-**Open a new agent.** Ask mode. Then point to **Context Usage** below the chat: "Every turn re-sends the whole chat, so this only goes up."
+Open the **Attempt 1 Long** chat you staged last night and point to its **Context Usage** below the chat. "Same bug, three vague turns. Every turn re-sent everything before it, so this number only went up." Not staged: point back to slide 14 instead, and say "each turn adds to the bar."
 
-```text
-/ask Why does dispute dsp_1043 show $400.00 suggested credit instead of $249.00? Name the files and the API version in 3 bullets. Do not edit files.
-```
+### The cheap way: one specific prompt, fresh agent
 
-```text
-/rename-chat dispute-cap-ask
-```
-
-### Plan (fresh chat)
-
-**Open a new agent.** Plan mode. "I'm pointing at the Ask chat so it doesn't search again. Reviewing the plan is the cheapest moment to change my mind." Save the plan as `fix-dispute-cap.md`, or use whatever name it offers in the next prompt.
+**Open a new agent.** Agent mode, Auto. "I'm pointing at the Debug chat, so it doesn't search again. I'm naming the file, the constraint and what done looks like. That's slide 16."
 
 ```text
-/plan @dispute-cap-ask Fix the suggested credit so the client uses the v2 API. Keep both /api/v1 and /api/v2 routes. Do not edit the failing test. Done when go test ./... passes. Stop after the plan for my review.
-```
-
-### Build (fresh chat)
-
-**Open a new agent.** Agent mode. "Fresh agent, clear plan, clear definition of done."
-
-```text
-Implement @fix-dispute-cap.md. Change only the files it names. Done when go test ./... passes. Continue to the end, do not wait for my approval.
+@debug-failing-test Fix the failing test by switching the suggested-credit client to the v2 API in internal/billing/suggested_credit.go. Keep both /api/v1 and /api/v2 routes. Do not edit the test. Done when go test ./... passes. Continue to the end, do not wait for my approval.
 ```
 
 ### Verify and compare
 
-Reload dsp_1043 and it now shows **$249.00**. Read the diff. Point to Context Usage in the build chat: "Look how little context this used." If staged, open **Attempt 1 Long**: "Same bug, three vague turns, far more tokens." Habits: start fresh at around 60% context. Near the limit, the chat is summarised and detail is dropped.
+Reload dsp_1043, which now shows **$249.00**. Read the diff, which should be one line. Then compare the Context Usage in this chat with Attempt 1 Long: "Same result, a fraction of the context."
+
+### Habits
+
+"Start fresh at around 60% context. That's a habit, not a setting. Near the limit, the chat is summarised and detail gets dropped. One agent per piece of work."
 
 ### Reset
 
@@ -206,11 +202,7 @@ Run ./scripts/reset-demo-state.sh. Report the result only.
 
 ### If it goes wrong
 
-Ask doesn't name the API version: use the prompt below. @dispute-cap-ask doesn't resolve: pick it from the @ menu or paste the Ask bullets. Tests still fail: "That's the verify step doing its job." Use the fix prompt below, and if it's still red at 08:33, reset and move on.
-
-```text
-/ask Which API version does SuggestedCreditPath in internal/billing/suggested_credit.go use? One line. Do not edit files.
-```
+@debug-failing-test doesn't resolve: pick the chat from the @ menu, or leave it out, because the prompt names the file anyway. Tests still fail: "That's the verify step doing its job." Use the prompt below, and if it's still red at 08:33, reset and move on. Running long: skip the Attempt 1 Long comparison and use slide 14.
 
 ```text
 Tests are failing. Read the failure, fix only the cause, and run go test ./... again.
@@ -346,7 +338,7 @@ Try it, resources (the workshops link), thank you. Open Q&A on slide 21.
 
 ### Clean up
 
-Run the reset prompt. Delete `.cursor/rules/money-rounding.mdc`, `.cursor/skills/release-note/` and `fix-dispute-cap.md`. Send Thomas the resources from slide 20 and any open questions.
+Run the reset prompt. Delete `.cursor/rules/money-rounding.mdc`, `.cursor/skills/release-note/` and any plan file Demo 1 saved. Send Thomas the resources from slide 20 and any open questions.
 
 ```text
 Run ./scripts/reset-demo-state.sh. Report the result only.

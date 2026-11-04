@@ -128,9 +128,17 @@ Keep the change to approve it. Click **restore checkpoint** on the first prompt.
 
 Open http://localhost:43173/disputes/dsp_1043. It shows **$400.00** against a $249 invoice. Background: the fix is `SUGGESTED_CREDIT_API_VERSION` in `internal/billing/suggested_credit.go`.
 
-### Explain context cost
+### The context window
 
-Show **Context Usage** on the debug-failing-test chat. Explain that every turn re-sends the whole chat.
+Open the **Context Usage** breakdown on the debug-failing-test chat. Show how full the window is and what's in it. Explain that every turn re-sends the whole chat.
+
+### Summarize
+
+In the same chat, run the command below. Show Context Usage again and point out the drop. Explain that summarising keeps the gist and drops detail.
+
+```text
+/summarize
+```
 
 ### One specific prompt, fresh agent
 

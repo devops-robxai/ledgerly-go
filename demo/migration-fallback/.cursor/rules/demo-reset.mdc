@@ -1,0 +1,13 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+
+# Demo reset
+
+Apply this only when someone `@`-mentions `demo-reset`.
+
+Between workshop groups, run `./scripts/reset-demo-state.sh`. That restores `SUGGESTED_CREDIT_API_VERSION` to v1 and removes an invoice email form if a practice session added one.
+
+Do not run the script unless the user asks. Do not edit `TestSuggestedCreditUsesV2Cap`.

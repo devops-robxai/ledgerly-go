@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Restore Ledgerly planted seams for the next 101 demo.
+# Restore Ledgerly planted seams after a workshop.
 #
-# runbooks/101.md mirrors Rosemary's 101 track and assumes this planted state:
-#   - Plan / Build in Agent mode: invoice email form ABSENT (read-only email)
-#   - Debug / Plan to fix the bug: SUGGESTED_CREDIT_API_VERSION is v1
-#     (card prompt is "Fix the failing test."; flip the constant in
-#     internal/billing/suggested_credit.go)
+# The Betsson runbook (runbooks/101.md) does not flip the constant and does
+# not add an invoice email form. This script still puts both back if a
+# practice session changed them:
+#   - SUGGESTED_CREDIT_API_VERSION returns to v1
+#   - an invoice email form / POST, if one was added, is removed
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

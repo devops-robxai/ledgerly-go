@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "ledgerly-billing": {
+      "command": "ledgerly-mcp",
+      "args": ["--stdio"],
+      "env": {
+        "LEDGERLY_MCP_TOKEN": "${env:LEDGERLY_MCP_TOKEN}"
+      }
+    }
+  }
+}

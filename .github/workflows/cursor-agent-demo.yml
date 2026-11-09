@@ -1,0 +1,64 @@
+# Demo workflow for the Betsson 101 CLI/CI minute.
+# workflow_dispatch only: a pull request must not call the API without a secret.
+# TO CONFIRM: the installer places cursor-agent in $HOME/.local/bin.
+name: cursor-agent demo
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-screenshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Cursor CLI
+        run: |
+          set -euo pipefail
+          curl https://cursor.com/install -fsS | bash
+          if [ -x "$HOME/.local/bin/cursor-agent" ]; then
+            echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          else
+            echo "TO CONFIRM: cursor-agent was not at \$HOME/.local/bin. Use the directory the installer printed."
+            exit 1
+          fi
+
+      - name: Read the screenshot
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CURSOR_API_KEY}" ]; then
+            echo "Add repository secret CURSOR_API_KEY, then re-run this workflow."
+            exit 1
+          fi
+          cursor-agent -p --force "Read the image at demo/screenshots/inv-1048-scale.png. Reply with one sentence that includes the plan name and the invoice amount in USD. Do not edit files." --output-format json > /tmp/cursor-agent.json
+          # TO CONFIRM: stdout is one JSON object. If a banner precedes it, use the last JSON object.
+          python3 - <<'PY'
+          import json
+          import pathlib
+          raw = pathlib.Path("/tmp/cursor-agent.json").read_text().strip()
+          data = None
+          try:
+              data = json.loads(raw)
+          except json.JSONDecodeError:
+              for line in raw.splitlines():
+                  line = line.strip()
+                  if not line:
+                      continue
+                  try:
+                      data = json.loads(line)
+                  except json.JSONDecodeError:
+                      continue
+          if not isinstance(data, dict):
+              raise SystemExit("expected a JSON object with a result string")
+          result = data.get("result")
+          if not isinstance(result, str) or not result.strip():
+              raise SystemExit("result must be a non-empty string")
+          if "scale" not in result.lower() or "249" not in result:
+              raise SystemExit("result did not mention Scale and 249: " + result)
+          print(result)
+          PY

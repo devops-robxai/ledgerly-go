@@ -17,13 +17,14 @@
       <article class="runbook-beat" id="{{.ID}}">
         {{if .Title}}<h3>{{.Title}}</h3>{{end}}
         {{if .Detail}}<div class="runbook-detail">{{md .Detail}}</div>{{end}}
-        {{range .Prompts}}
+        {{$beat := .}}
+        {{range $i, $p := .Prompts}}
           <div class="prompt-block">
             <div class="prompt-toolbar">
-              <span class="meta">Paste in Cursor</span>
+              <span class="meta">{{if eq (index $beat.PromptKinds $i) "terminal"}}Run in the terminal{{else}}Paste in Cursor{{end}}</span>
               <button type="button" class="copy-btn" data-copy>Copy</button>
             </div>
-            <pre tabindex="0"><code>{{.}}</code></pre>
+            <pre tabindex="0"><code>{{$p}}</code></pre>
           </div>
         {{end}}
       </article>

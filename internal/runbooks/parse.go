@@ -26,11 +26,13 @@ type Section struct {
 }
 
 // Beat is an H3 card (title + detail + optional fenced prompt examples).
+// PromptKinds is parallel to Prompts: "cursor" (paste into chat) or "terminal".
 type Beat struct {
-	ID      string
-	Title   string
-	Detail  string
-	Prompts []string
+	ID          string
+	Title       string
+	Detail      string
+	Prompts     []string
+	PromptKinds []string
 }
 
 // Load reads name (e.g. "101.md") from fsys and parses it.
@@ -56,6 +58,7 @@ func Parse(md string) (*Track, error) {
 	var beat *Beat
 	var fence []string
 	inFence := false
+	fenceKind := "cursor"
 	usedIDs := map[string]int{}
 
 	flushBeat := func() {
@@ -103,6 +106,7 @@ func Parse(md string) (*Track, error) {
 			if strings.HasPrefix(line, "```") {
 				ensureBeat()
 				beat.Prompts = append(beat.Prompts, strings.TrimRight(strings.Join(fence, "\n"), "\n"))
+				beat.PromptKinds = append(beat.PromptKinds, fenceKind)
 				fence = nil
 				inFence = false
 				continue
@@ -113,6 +117,13 @@ func Parse(md string) (*Track, error) {
 		if strings.HasPrefix(line, "```") {
 			inFence = true
 			fence = nil
+			lang := strings.TrimSpace(strings.TrimPrefix(line, "```"))
+			switch lang {
+			case "bash", "sh", "shell", "terminal":
+				fenceKind = "terminal"
+			default:
+				fenceKind = "cursor"
+			}
 			continue
 		}
 		if strings.HasPrefix(line, "# ") && track.Title == "" && section == nil {
@@ -147,6 +158,7 @@ func Parse(md string) (*Track, error) {
 	if inFence && len(fence) > 0 {
 		ensureBeat()
 		beat.Prompts = append(beat.Prompts, strings.TrimRight(strings.Join(fence, "\n"), "\n"))
+		beat.PromptKinds = append(beat.PromptKinds, fenceKind)
 	}
 	flushSection()
 	track.Intro = strings.TrimSpace(track.Intro)

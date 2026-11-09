@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/format-go.sh"
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": ".cursor/hooks/guard-secret-print.sh",
+        "matcher": "Shell"
+      }
+    ]
+  }
+}

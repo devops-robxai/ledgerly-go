@@ -14,36 +14,44 @@ var betsson101 = []struct {
 	beats   []string
 }{
 	{
-		section: "Before (09:22)",
+		section: "Demos to run",
+		beats:   []string{""},
+	},
+	{
+		section: "Beat 1. Before (09:22)",
 		beats:   []string{"Open Ledgerly", "Copilot files on this branch"},
 	},
 	{
-		section: "Modes (09:24)",
+		section: "Beat 2. Modes (09:24)",
 		beats:   []string{"Which modes", "Ask", "Plan", "Debug", "Back to Agent"},
 	},
 	{
-		section: "Rules (09:27)",
+		section: "Beat 3. Rules (09:27)",
 		beats:   []string{"Migrate instructions", "Four rule types"},
 	},
 	{
-		section: "Skills (09:31)",
+		section: "Beat 4. Skills (09:31)",
 		beats:   []string{"Copy the GitHub skill", "Prompt file becomes a skill"},
 	},
 	{
-		section: "Subagent and MCP (09:34)",
+		section: "Beat 5. Subagent and MCP (09:34)",
 		beats:   []string{"Custom agent", "MCP config"},
 	},
 	{
-		section: "Hooks (09:36)",
+		section: "Beat 6. Hooks (09:36)",
 		beats:   []string{"Optional hooks"},
 	},
 	{
-		section: "Prove it (09:37)",
+		section: "Beat 7. Prove it (09:37)",
 		beats:   []string{"Run the skill", "Use the manual rule"},
 	},
 	{
-		section: "CLI and CI (09:39)",
+		section: "Beat 8. CLI and CI (09:39)",
 		beats:   []string{"Install the CLI", "Read a screenshot", "The Actions workflow"},
+	},
+	{
+		section: "Beat 9. Buffer (09:42)",
+		beats:   []string{"Steer one diff"},
 	},
 	{
 		section: "If the agent stalls",

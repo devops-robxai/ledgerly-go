@@ -14,4 +14,4 @@ Do not invent a fourth plan.
 
 Suggested credit ships on v1. `SUGGESTED_CREDIT_API_VERSION` is in `internal/billing/suggested_credit.go`. Dispute `dsp_1043` claims $400 against Scale invoice `inv_1048` ($249). v1 returns the raw claim. v2 caps at $249. Keep both `/api/v1` and `/api/v2` suggested-credit routes. Do not edit `TestSuggestedCreditUsesV2Cap` to get a green test.
 
-Path rules live in `.github/instructions/`. The explain-invoice prompt file is `.github/prompts/explain-invoice.prompt.md`. The custom agent is `.github/agents/billing-reviewer.md`. Skills used with Copilot in this repo are `.github/skills/invoice-memo/` and `.claude/skills/dispute-note/`. MCP for VS Code Copilot is `.vscode/mcp.json`.
+Path rules live in `.github/instructions/`. The explain-invoice prompt file is `.github/prompts/explain-invoice.prompt.md`. The custom agent is `.github/agents/billing-reviewer.md`. The Copilot skill is `.github/skills/invoice-memo/`. MCP for VS Code Copilot is `.vscode/mcp.json`.

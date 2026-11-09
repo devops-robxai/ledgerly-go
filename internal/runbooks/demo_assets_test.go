@@ -17,7 +17,6 @@ func TestBetssonDemoAssets(t *testing.T) {
 		".github/prompts/explain-invoice.prompt.md",
 		".github/agents/billing-reviewer.md",
 		".github/skills/invoice-memo/SKILL.md",
-		".claude/skills/dispute-note/SKILL.md",
 		".vscode/mcp.json",
 		".github/workflows/cursor-agent-demo.yml",
 		"demo/screenshots/inv-1048-scale.png",
@@ -107,5 +106,8 @@ func TestBetssonDemoAssets(t *testing.T) {
 	}
 	if !strings.Contains(string(hooks), `"version": 1`) || !strings.Contains(string(hooks), "afterFileEdit") || !strings.Contains(string(hooks), "preToolUse") {
 		t.Fatalf("hooks.json:\n%s", hooks)
+	}
+	if _, err := os.Stat(filepath.Join(root, ".claude")); !os.IsNotExist(err) {
+		t.Fatal(".claude should not be in the demo tree")
 	}
 }

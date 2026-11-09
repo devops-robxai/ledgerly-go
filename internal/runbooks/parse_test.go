@@ -27,7 +27,7 @@ var betsson101 = []struct {
 	},
 	{
 		section: "Skills (09:31)",
-		beats:   []string{"Copy the GitHub skill", "Leave the Claude skill", "Prompt file becomes a skill"},
+		beats:   []string{"Copy the GitHub skill", "Prompt file becomes a skill"},
 	},
 	{
 		section: "Subagent and MCP (09:34)",
@@ -99,8 +99,7 @@ func TestParse101SourceOfTruth(t *testing.T) {
 		"/plan Map each Copilot customization file to the Cursor file that should replace it. Do not create or edit files. Do not change SUGGESTED_CREDIT_API_VERSION.",
 		"/debug A rule was saved as .cursor/rules/go-money.md and Cursor is not applying it. Find out why. Do not change SUGGESTED_CREDIT_API_VERSION. Do not edit tests.",
 		"Migrate Copilot instructions to Cursor rules.",
-		"Copy .github/skills/invoice-memo/ to .cursor/skills/invoice-memo/. Leave .claude/skills/dispute-note/ where it is. Do not edit Go code.",
-		"Confirm .claude/skills/dispute-note/SKILL.md is still in place. Do not move it and do not edit it.",
+		"Copy .github/skills/ to .cursor/skills/. Do not edit Go code.",
 		"/migrate-to-skills Turn .github/prompts/explain-invoice.prompt.md into a skill at .cursor/skills/explain-invoice/SKILL.md. Do not create a command. Do not edit Go code.",
 		"Create .cursor/agents/billing-reviewer.md from .github/agents/billing-reviewer.md.",
 		"Create .cursor/mcp.json from .vscode/mcp.json. Use the mcpServers key.",
@@ -163,6 +162,12 @@ func TestParse101SourceOfTruth(t *testing.T) {
 	}
 	if trackHasPrompt(track, "Redact the customer email") {
 		t.Error("email redact cards are not part of this session")
+	}
+	full := trackText(track)
+	for _, banned := range []string{".claude/", ".codex/", "dispute-note", "Leave the Claude skill"} {
+		if strings.Contains(full, banned) {
+			t.Errorf("runbook still mentions %q", banned)
+		}
 	}
 }
 

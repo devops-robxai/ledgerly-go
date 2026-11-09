@@ -50,7 +50,7 @@ Do **not** edit the failing test to get green. Flip the client to v2 (and keep b
 ## Workshop notes
 
 1. Copy-paste prompts: [http://localhost:43173/runbooks/101](http://localhost:43173/runbooks/101). Cards parse from [`runbooks/101.md`](runbooks/101.md).
-2. Copilot files are already on `betsson` (`.github/`, `.claude/skills/`, `.vscode/mcp.json`, `AGENTS.md`). The live demo migrates them. If the agent stalls, `./scripts/apply-migration-fallback.sh` copies the reviewed after-state from `demo/migration-fallback/` and does not change `.cursor/rules/ledgerly.mdc`.
+2. Copilot files are already on `betsson` (`.github/`, `.vscode/mcp.json`, `AGENTS.md`). The live demo migrates them. If the agent stalls, `./scripts/apply-migration-fallback.sh` copies the reviewed after-state from `demo/migration-fallback/` and does not change `.cursor/rules/ledgerly.mdc`.
 3. `./scripts/reset-demo-state.sh` restores the v1 suggested-credit client and strips an invoice email form if a practice session added one. This migration session does not add that form and does not flip v1.
 4. CLI image: `demo/screenshots/inv-1048-scale.png`. Actions workflow: `.github/workflows/cursor-agent-demo.yml` (`workflow_dispatch`, secret `CURSOR_API_KEY`). No real secrets are committed.
 

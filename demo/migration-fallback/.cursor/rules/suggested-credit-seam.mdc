@@ -1,0 +1,16 @@
+---
+description: Use when the task mentions a dispute, a suggested credit, or SUGGESTED_CREDIT_API_VERSION.
+globs:
+alwaysApply: false
+---
+
+# Suggested-credit seam
+
+When the task is about disputes or suggested credit:
+
+- `SUGGESTED_CREDIT_API_VERSION` in `internal/billing/suggested_credit.go` ships as v1.
+- Dispute `dsp_1043` claims $400 (40000 cents) against Scale invoice `inv_1048` ($249, 24900 cents).
+- v1 returns the raw claim. v2 caps the suggestion at the plan price.
+- Keep both `/api/v1` and `/api/v2` suggested-credit routes.
+- Do not flip the constant unless the user asks to fix the planted test.
+- Do not edit `TestSuggestedCreditUsesV2Cap`.

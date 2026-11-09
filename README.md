@@ -1,6 +1,6 @@
 # Ledgerly (Go)
 
-Go-native billing-ops demo for **Cursor 101** workshops (SLB Europe). Server-rendered HTML with planted seams for the in-app 101 track (Ask → Plan → Agent → Debug, then steer and govern).
+Go-native billing-ops demo. Branch `betsson` is the Betsson Group 101 on Tue 10 Nov 2026, 09:00 London: migrate a GitHub Copilot setup to Grok Build, then show the Grok Build CLI and a GitHub Actions workflow. In-app script: [`runbooks/101.md`](runbooks/101.md). The 20-minute block is 09:22–09:42.
 
 Fictional B2B billing. Operator **Avery Quinn**. Catalog: Starter **$49**, Growth **$99**, Scale **$249**. Demo clock frozen at **23 August 2026**. Synthetic `.example` customers only.
 
@@ -34,7 +34,7 @@ On a clean tree, `go test ./...` is **1 failed** — `TestSuggestedCreditUsesV2C
 | Dispute HTML `/disputes/dsp_1043` | Calls v1 path → shows **$400.00** | should show **$249.00** |
 | `TestSuggestedCreditUsesV2Cap` | **Fails** until client uses v2 | passes after flip |
 
-Do **not** edit the failing test to get green. Flip the client to v2 (and keep both API routes).
+Do **not** edit the failing test to get green. Flip the client to v2 (and keep both API routes). The Betsson migration demo does **not** flip this constant.
 
 ## App map
 
@@ -49,10 +49,10 @@ Do **not** edit the failing test to get green. Flip the client to v2 (and keep b
 
 ## Workshop notes
 
-1. Copy-paste prompts in the product UI: [http://localhost:43173/runbooks/101](http://localhost:43173/runbooks/101). Cards parse from [`runbooks/101.md`](runbooks/101.md), which mirrors Rosemary’s 101 track (Go paths only where her prompts cite JS/npm).
-2. Reset planted seams after a demo: `./scripts/reset-demo-state.sh`. That restores the v1 suggested-credit client **and** the absent invoice email form (strips the form / write path if a practice agent added them). Plan / Build assume the email feature is missing; Debug / Fix assume v1.
-3. Invoice email beat uses `inv_1048` (Brightwell Labs). The update form is intentionally missing on a clean tree so Plan→Agent can implement it.
-4. Do not push to GitHub unless asked; local `git init` is fine.
+1. Copy-paste prompts: [http://localhost:43173/runbooks/101](http://localhost:43173/runbooks/101). Cards parse from [`runbooks/101.md`](runbooks/101.md).
+2. Copilot files are already on `betsson` (`.github/`, `.vscode/mcp.json`, `AGENTS.md`). The live demo migrates them. If the agent stalls, `./scripts/apply-migration-fallback.sh` copies the reviewed after-state from `demo/migration-fallback/` and does not change `.cursor/rules/ledgerly.mdc`.
+3. `./scripts/reset-demo-state.sh` restores the v1 suggested-credit client and strips an invoice email form if a practice session added one. This migration session does not add that form and does not flip v1.
+4. CLI image: `demo/screenshots/inv-1048-scale.png`. Actions workflow: `.github/workflows/cursor-agent-demo.yml` (`workflow_dispatch`, secret `CURSOR_API_KEY`). No real secrets are committed.
 
 ## Module
 

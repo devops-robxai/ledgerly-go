@@ -70,12 +70,14 @@ func TestBetssonDemoAssets(t *testing.T) {
 		"workflow_dispatch",
 		"demo/screenshots/inv-1048-scale.png",
 		`data.get("result")`,
+		"stdout must be one JSON object",
+		"json code fence",
 	} {
 		if !strings.Contains(text, needle) {
 			t.Errorf("workflow missing %q", needle)
 		}
 	}
-	for _, banned := range []string{"--image", "--yolo", "pull_request:"} {
+	for _, banned := range []string{"--image", "--yolo", "pull_request:", "last JSON object"} {
 		if strings.Contains(text, banned) {
 			t.Errorf("workflow should not contain %q", banned)
 		}

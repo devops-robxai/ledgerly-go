@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-// betsson101 is the 10 Nov 2026 Copilot-to-Cursor block in runbooks/101.md.
+// betsson101 is the 10 Nov 2026 Copilot-to-Grok Build block in runbooks/101.md.
 // Titles and the prompt examples below must stay in this order.
 var betsson101 = []struct {
 	section string
@@ -96,9 +96,9 @@ func TestParse101SourceOfTruth(t *testing.T) {
 
 	wantPrompts := []string{
 		"/ask List the Copilot customization files in this repo and say what each one is for. Do not edit files.",
-		"/plan Map each Copilot customization file to the Cursor file that should replace it. Do not create or edit files. Do not change SUGGESTED_CREDIT_API_VERSION.",
-		"/debug A rule was saved as .cursor/rules/go-money.md and Cursor is not applying it. Find out why. Do not change SUGGESTED_CREDIT_API_VERSION. Do not edit tests.",
-		"Migrate Copilot instructions to Cursor rules.",
+		"/plan Map each Copilot customization file to the Grok Build file that should replace it. Do not create or edit files. Do not change SUGGESTED_CREDIT_API_VERSION.",
+		"/debug A rule was saved as .cursor/rules/go-money.md and Grok Build is not applying it. Find out why. Do not change SUGGESTED_CREDIT_API_VERSION. Do not edit tests.",
+		"Migrate Copilot instructions to Grok Build rules.",
 		"Copy .github/skills/ to .cursor/skills/. Do not edit Go code.",
 		"/migrate-to-skills Turn .github/prompts/explain-invoice.prompt.md into a skill at .cursor/skills/explain-invoice/SKILL.md. Do not create a command. Do not edit Go code.",
 		"Create .cursor/agents/billing-reviewer.md from .github/agents/billing-reviewer.md.",

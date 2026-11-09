@@ -2,7 +2,7 @@
 
 Fictional B2B billing. Precise billing-ops voice. Operator Avery Quinn. Synthetic `.example` customers only. Demo clock 23 August 2026.
 
-Copilot and Cursor both read this file.
+Copilot and Grok Build both read this file.
 
 ## Catalog
 

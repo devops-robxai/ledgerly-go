@@ -21,7 +21,7 @@
         {{range $i, $p := .Prompts}}
           <div class="prompt-block">
             <div class="prompt-toolbar">
-              <span class="meta">{{if eq (index $beat.PromptKinds $i) "terminal"}}Run in the terminal{{else}}Paste in Cursor{{end}}</span>
+              <span class="meta">{{if eq (index $beat.PromptKinds $i) "terminal"}}Run in the terminal{{else}}Paste in Grok Build{{end}}</span>
               <button type="button" class="copy-btn" data-copy>Copy</button>
             </div>
             <pre tabindex="0"><code>{{$p}}</code></pre>

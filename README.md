@@ -1,6 +1,6 @@
 # Ledgerly (Go)
 
-Go-native billing-ops demo. Branch `betsson` is the Betsson Group 101 on Tue 10 Nov 2026, 09:00 London: migrate a GitHub Copilot setup to Cursor, then show Cursor CLI and a GitHub Actions workflow. In-app script: [`runbooks/101.md`](runbooks/101.md). The 20-minute block is 09:22–09:42.
+Go-native billing-ops demo. Branch `betsson` is the Betsson Group 101 on Tue 10 Nov 2026, 09:00 London: migrate a GitHub Copilot setup to Grok Build, then show the Grok Build CLI and a GitHub Actions workflow. In-app script: [`runbooks/101.md`](runbooks/101.md). The 20-minute block is 09:22–09:42.
 
 Fictional B2B billing. Operator **Avery Quinn**. Catalog: Starter **$49**, Growth **$99**, Scale **$249**. Demo clock frozen at **23 August 2026**. Synthetic `.example` customers only.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copy the reviewed Copilot-to-Cursor after-state into the working tree.
+# Copy the reviewed Copilot-to-Grok Build after-state into the working tree.
 # Does not modify .cursor/rules/ledgerly.mdc, AGENTS.md, or the Copilot source files.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

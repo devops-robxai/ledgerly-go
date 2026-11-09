@@ -81,7 +81,7 @@ func TestRunbooks101RendersCopyableCards(t *testing.T) {
 		"There is no image flag",
 		"demo/screenshots/inv-1048-scale.png",
 		"./scripts/apply-migration-fallback.sh",
-		"Paste in Cursor",
+		"Paste in Grok Build",
 		"data-copy",
 		"runbooks/101.md",
 	} {

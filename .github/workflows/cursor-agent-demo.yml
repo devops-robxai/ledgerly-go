@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Cursor CLI
+      - name: Install Grok Build CLI
         run: |
           set -euo pipefail
           curl https://cursor.com/install -fsS | bash

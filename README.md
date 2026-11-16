@@ -2,6 +2,8 @@
 
 Go-native billing-ops demo. Branch `betsson` is the Betsson Group 101 on Tue 10 Nov 2026, 09:00 London: migrate a GitHub Copilot setup to Grok Build, then show the Grok Build CLI and a GitHub Actions workflow. In-app script: [`runbooks/101.md`](runbooks/101.md). The 20-minute block is 09:22–09:42.
 
+Branch `betsson-201` is the Betsson Group 201 (Directing Agents) on Tue 17 Nov 2026. It keeps the 101 assets and adds project hooks, a resolve-dispute plan, and the `ledgerly-reviewer` subagent. In-app script: [`runbooks/201.md`](runbooks/201.md).
+
 Fictional B2B billing. Operator **Avery Quinn**. Catalog: Starter **$49**, Growth **$99**, Scale **$249**. Demo clock frozen at **23 August 2026**. Synthetic `.example` customers only.
 
 Go alternative to Rosemary’s JS Ledgerly (`joatmon08x/ce-field-demos`).
@@ -15,7 +17,7 @@ cd ~/Developer/ledgerly   # or this repo root
 go run ./cmd/server
 ```
 
-Open **http://localhost:43173**. Workshop prompts: **http://localhost:43173/runbooks/101**.
+Open **http://localhost:43173**. Workshop prompts: **http://localhost:43173/runbooks/101** and **http://localhost:43173/runbooks/201**.
 
 ```bash
 go build -o /tmp/ledgerly ./cmd/server
@@ -49,7 +51,7 @@ Do **not** edit the failing test to get green. Flip the client to v2 (and keep b
 
 ## Workshop notes
 
-1. Copy-paste prompts: [http://localhost:43173/runbooks/101](http://localhost:43173/runbooks/101). Cards parse from [`runbooks/101.md`](runbooks/101.md).
+1. Copy-paste prompts: [http://localhost:43173/runbooks/101](http://localhost:43173/runbooks/101) and [http://localhost:43173/runbooks/201](http://localhost:43173/runbooks/201). Cards parse from [`runbooks/101.md`](runbooks/101.md) and [`runbooks/201.md`](runbooks/201.md).
 2. Copilot files are already on `betsson` (`.github/`, `.vscode/mcp.json`, `AGENTS.md`). The live demo migrates them. If the agent stalls, `./scripts/apply-migration-fallback.sh` copies the reviewed after-state from `demo/migration-fallback/` and does not change `.cursor/rules/ledgerly.mdc`.
 3. `./scripts/reset-demo-state.sh` restores the v1 suggested-credit client and strips an invoice email form if a practice session added one. This migration session does not add that form and does not flip v1.
 4. CLI image: `demo/screenshots/inv-1048-scale.png`. Actions workflow: `.github/workflows/cursor-agent-demo.yml` (`workflow_dispatch`, secret `CURSOR_API_KEY`). No real secrets are committed.

@@ -297,3 +297,32 @@ func repoRoot(t *testing.T) string {
 	t.Fatal("repo root not found")
 	return ""
 }
+
+func TestParse201Runbook(t *testing.T) {
+	root := repoRoot(t)
+	raw, err := os.ReadFile(filepath.Join(root, "runbooks", "201.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	track, err := Parse(string(raw))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if track.Title == "" {
+		t.Fatal("201 runbook has no title")
+	}
+	var prompts int
+	var beats int
+	for _, section := range track.Sections {
+		beats += len(section.Beats)
+		for _, beat := range section.Beats {
+			prompts += len(beat.Prompts)
+		}
+	}
+	if beats < 8 {
+		t.Fatalf("expected several 201 beats, got %d sections / %d beats", len(track.Sections), beats)
+	}
+	if prompts < 10 {
+		t.Fatalf("expected copy-paste prompts in 201.md, got %d", prompts)
+	}
+}

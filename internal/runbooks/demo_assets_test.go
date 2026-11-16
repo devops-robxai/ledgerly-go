@@ -31,6 +31,13 @@ func TestBetssonDemoAssets(t *testing.T) {
 		"demo/migration-fallback/.cursor/hooks/guard-secret-print.sh",
 		"scripts/apply-migration-fallback.sh",
 		".cursor/rules/ledgerly.mdc",
+		".cursor/hooks.json",
+		".cursor/hooks/guard-shell.sh",
+		".cursor/hooks/format-go.sh",
+		".cursor/hooks/guard-mcp.sh",
+		".cursor/hooks/mcp-allowlist.json",
+		".cursor/plans/resolve-dispute.md",
+		".cursor/agents/ledgerly-reviewer.md",
 	}
 	for _, rel := range required {
 		if _, err := os.Stat(filepath.Join(root, rel)); err != nil {

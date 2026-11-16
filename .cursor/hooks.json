@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": ".cursor/hooks/guard-shell.sh"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/format-go.sh"
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": ".cursor/hooks/guard-mcp.sh",
+        "failClosed": true
+      }
+    ]
+  }
+}

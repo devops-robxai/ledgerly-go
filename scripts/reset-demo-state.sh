@@ -1,14 +1,53 @@
 #!/usr/bin/env bash
 # Restore Ledgerly planted seams after a workshop.
 #
-# The Betsson runbook (runbooks/101.md) does not flip the constant and does
-# not add an invoice email form. This script still puts both back if a
-# practice session changed them:
+# The Betsson 101 runbook (runbooks/101.md) does not flip the constant and does
+# not add an invoice email form. The 201 runbook may flip v1 while fixing
+# dsp_1043, add a resolve-dispute feature, or leave hook-demo edits. This
+# script puts the tree back:
+#   - git restore of billing, HTTP, templates, and .cursor hook/plan/agent files
+#   - untracked files those demos may have added are removed
 #   - SUGGESTED_CREDIT_API_VERSION returns to v1
 #   - an invoice email form / POST, if one was added, is removed
+# It does not delete Linear issues, worktrees, or ~/.cursor skills.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+
+restore_with_git() {
+  if ! command -v git >/dev/null; then
+    echo "git not found; skipping git restore"
+    return 1
+  fi
+  if ! git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "not a git work tree; skipping git restore"
+    return 1
+  fi
+  local paths=(
+    internal/billing
+    internal/http
+    web/templates
+    .cursor/hooks.json
+    .cursor/hooks
+    .cursor/plans
+    .cursor/agents
+  )
+  local tracked=()
+  local path
+  for path in "${paths[@]}"; do
+    if git -C "$ROOT" ls-files --error-unmatch -- "$path" >/dev/null 2>&1; then
+      tracked+=("$path")
+    fi
+  done
+  if ((${#tracked[@]})); then
+    git -C "$ROOT" restore --worktree --staged -- "${tracked[@]}"
+  fi
+  git -C "$ROOT" clean -fd -- "${paths[@]}" .cursor/skills
+  echo "restored tracked demo paths to HEAD and removed untracked files under them"
+  return 0
+}
+
+restore_with_git || true
 
 FILE="$ROOT/internal/billing/suggested_credit.go"
 if [[ ! -f "$FILE" ]]; then

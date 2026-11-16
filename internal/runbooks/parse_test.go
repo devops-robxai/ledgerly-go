@@ -311,18 +311,44 @@ func TestParse201Runbook(t *testing.T) {
 	if track.Title == "" {
 		t.Fatal("201 runbook has no title")
 	}
+	want := []string{
+		"Demo: context (slide 10)",
+		"Demo: hooks (slide 15)",
+		"Demo: issue tracker (slide 20)",
+		"Demo: /multitask (slide 27)",
+	}
+	var titles []string
 	var prompts int
-	var beats int
 	for _, section := range track.Sections {
-		beats += len(section.Beats)
+		titles = append(titles, section.Title)
 		for _, beat := range section.Beats {
 			prompts += len(beat.Prompts)
 		}
 	}
-	if beats < 8 {
-		t.Fatalf("expected several 201 beats, got %d sections / %d beats", len(track.Sections), beats)
+	for _, title := range want {
+		found := false
+		for _, got := range titles {
+			if got == title {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Fatalf("missing section %q, have %#v", title, titles)
+		}
 	}
 	if prompts < 10 {
 		t.Fatalf("expected copy-paste prompts in 201.md, got %d", prompts)
+	}
+	text := string(raw)
+	for _, line := range []string{
+		"Return to slide 11: How do you enforce standards?",
+		"Return to slide 16: How do you connect external tools?",
+		"Return to slide 21: How do you parallelize a task?",
+		"Return to slide 28: Try it",
+	} {
+		if !strings.Contains(text, line) {
+			t.Fatalf("missing %q", line)
+		}
 	}
 }

@@ -28,7 +28,7 @@ func testServer(t *testing.T) *Server {
 	return srv
 }
 
-func TestRunbooksIndexRedirectsTo101(t *testing.T) {
+func TestRunbooksIndexRedirectsTo201(t *testing.T) {
 	srv := testServer(t)
 	for _, path := range []string{"/runbooks", "/runbooks/", "/workflows", "/analysis"} {
 		rec := httptest.NewRecorder()
@@ -37,8 +37,8 @@ func TestRunbooksIndexRedirectsTo101(t *testing.T) {
 		if rec.Code != http.StatusFound {
 			t.Errorf("%s: status %d, want %d", path, rec.Code, http.StatusFound)
 		}
-		if loc := rec.Header().Get("Location"); loc != "/runbooks/101" {
-			t.Errorf("%s: Location %q, want /runbooks/101", path, loc)
+		if loc := rec.Header().Get("Location"); loc != "/runbooks/201" {
+			t.Errorf("%s: Location %q, want /runbooks/201", path, loc)
 		}
 	}
 }

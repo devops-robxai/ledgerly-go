@@ -183,7 +183,7 @@ func (s *Server) handleSuggestedCreditV2(w http.ResponseWriter, r *http.Request)
 }
 
 func (s *Server) redirectToRunbooks101(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/runbooks/101", http.StatusFound)
+	http.Redirect(w, r, "/runbooks/201", http.StatusFound)
 }
 
 func (s *Server) handleRunbooks(w http.ResponseWriter, r *http.Request) {

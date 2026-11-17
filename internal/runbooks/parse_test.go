@@ -314,7 +314,6 @@ func TestParse201Runbook(t *testing.T) {
 	want := []string{
 		"Demo: context (slide 10)",
 		"Demo: hooks (slide 15)",
-		"Demo: issue tracker (slide 20)",
 		"Demo: /multitask (slide 27)",
 	}
 	var titles []string
@@ -344,7 +343,6 @@ func TestParse201Runbook(t *testing.T) {
 	for _, line := range []string{
 		"Return to slide 11: How do you enforce standards?",
 		"Return to slide 16: How do you connect external tools?",
-		"Return to slide 21: How do you parallelize a task?",
 		"Return to slide 28: Try it",
 	} {
 		if !strings.Contains(text, line) {

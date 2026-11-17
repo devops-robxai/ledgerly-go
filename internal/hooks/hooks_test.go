@@ -80,11 +80,11 @@ func TestGuardShellDecisions(t *testing.T) {
 		{"allow test", "go test ./internal/billing/", "allow"},
 		{"deny rm -rf", "rm -rf /tmp/ledgerly-demo-scratch", "deny"},
 		{"deny rm -fr", "rm -fr /tmp/ledgerly-demo-scratch", "deny"},
-		{"deny force push", "git push --force origin betsson-201", "deny"},
-		{"deny push -f", "git push -f origin betsson-201", "deny"},
+		{"deny force push", "git push --force origin dap-201", "deny"},
+		{"deny push -f", "git push -f origin dap-201", "deny"},
 		{"deny drop database", "psql -c 'DROP DATABASE ledgerly'", "deny"},
 		{"deny db drop", "echo db drop", "deny"},
-		{"ask git push", "git push --dry-run origin betsson-201", "ask"},
+		{"ask git push", "git push --dry-run origin dap-201", "ask"},
 		{"ask rm", "rm /tmp/ledgerly-demo-scratch", "ask"},
 	}
 	for _, tc := range cases {
